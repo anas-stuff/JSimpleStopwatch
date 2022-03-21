@@ -46,7 +46,8 @@ public class Time {
     }
 
     public String toString() {
-        return String.format("%02d:%02d:%02d", hour, minute, second);
+        return (this.getHour() == 0 ? "" : String.format("%02d", this.getHour()) + ":") +
+                String.format("%02d:%02d.%02d", this.getMinute(), this.getSecond(), this.getMillisecond());
     }
 
     public void increment() {

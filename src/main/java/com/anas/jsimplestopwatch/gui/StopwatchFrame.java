@@ -83,12 +83,7 @@ public class StopwatchFrame extends JFrame {
     }
 
     public void updateTime(Time time) {
-        String timeString = (time.getHour() == 0 ? "" : String.format("%02d", time.getHour()) + ":") +
-                String.format("%02d", time.getMinute()) + ":" +
-                String.format("%02d", time.getSecond()) + "." +
-                String.format("%02d", time.getMillisecond());
-
-        timeLabel.setText(timeString);
+        timeLabel.setText(time.toString());
     }
 
     private void notifyButtonListeners(ButtonEvent buttonEvent) {
