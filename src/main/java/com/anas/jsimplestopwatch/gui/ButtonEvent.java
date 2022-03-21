@@ -1,19 +1,19 @@
 package com.anas.jsimplestopwatch.gui;
 
 public class ButtonEvent {
-    public static enum ButtonType {
+    public static enum Type {
         START,
         PAUSE,
         STOP,
         RESET;
     }
-    private ButtonType type;
+    private Type type;
 
-    public ButtonEvent(ButtonType type) {
+    public ButtonEvent(Type type) {
         this.type = type;
     }
 
-    public ButtonType getType() {
+    public Type getType() {
         return type;
     }
 }

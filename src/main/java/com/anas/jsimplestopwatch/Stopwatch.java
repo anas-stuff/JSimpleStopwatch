@@ -6,17 +6,20 @@ import com.anas.jsimplestopwatch.listeners.StopwatchChangeListener;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Stopwatch implements ActionListener {
     private static Stopwatch instance;
-    private StopwatchChangeListener changeListener;
+    private ArrayList<StopwatchChangeListener> changeListeners;
     private final Timer timer;
     private final Time time;
+    private boolean running;
 
     private Stopwatch() {
-        this.changeListener = null;
+        this.changeListeners = new ArrayList<>();
         this.timer = new Timer(1000, this); // every second call actionPerformed
         this.time = new Time();
+        this.running = false;
     }
 
     public static Stopwatch getInstance() {
@@ -29,34 +32,48 @@ public class Stopwatch implements ActionListener {
 
     public void start() {
         timer.start();
+        running = true;
+        notifyChangeListeners();
     }
 
     public void stop() {
         timer.stop();
         time.reset();
+        running = false;
+        notifyChangeListeners();
     }
 
     public void pause() {
         timer.stop();
+        running = false;
     }
 
     public void reset() {
         time.reset();
+        notifyChangeListeners();
     }
 
 
-    public StopwatchChangeListener getChangeListener() {
-        return changeListener;
+    public ArrayList<StopwatchChangeListener> getChangeListeners() {
+        return changeListeners;
     }
 
-    public void setChangeListener(StopwatchChangeListener changeListener) {
-        this.changeListener = changeListener;
+    public void setChangeListeners(StopwatchChangeListener changeListener) {
+        changeListeners.add(changeListener);
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         time.increment();
-        if (changeListener != null) {
+        notifyChangeListeners();
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    private void notifyChangeListeners() {
+        for (StopwatchChangeListener changeListener : changeListeners) {
             changeListener.onChange(new StopwatchChangeEvent(time));
         }
     }

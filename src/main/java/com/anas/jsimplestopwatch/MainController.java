@@ -11,7 +11,7 @@ public class MainController implements StopwatchChangeListener, ButtonsListener 
     public MainController() {
         stopwatchFrame = new StopwatchFrame();
         stopwatchFrame.addButtonListener(this);
-        Stopwatch.getInstance().setChangeListener(this);
+        Stopwatch.getInstance().setChangeListeners(this);
     }
 
     @Override

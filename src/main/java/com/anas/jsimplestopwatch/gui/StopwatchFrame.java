@@ -1,5 +1,6 @@
 package com.anas.jsimplestopwatch.gui;
 
+import com.anas.jsimplestopwatch.Stopwatch;
 import com.anas.jsimplestopwatch.Time;
 import net.miginfocom.swing.MigLayout;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class StopwatchFrame extends JFrame {
     private JLabel timeLabel;
-    private JButton startButton, pauseButton, stopButton, resetButton;
+    private JButton startButton, stopButton, resetButton;
     private JLabel settingsLabel;
     private final ArrayList<ButtonsListener> buttonsListeners;
 
@@ -25,7 +26,6 @@ public class StopwatchFrame extends JFrame {
     private void initializeComponents() {
         timeLabel = new JLabel("00:00.00");
         startButton = new JButton("Start");
-        pauseButton = new JButton("Pause");
         stopButton = new JButton("Stop");
         resetButton = new JButton("Reset");
         settingsLabel = new JLabel("⚙️");
@@ -45,7 +45,6 @@ public class StopwatchFrame extends JFrame {
 
         Font buttonFont = new Font(Font.SERIF, Font.PLAIN, 35);
         startButton.setFont(buttonFont);
-        pauseButton.setFont(buttonFont);
         stopButton.setFont(buttonFont);
         resetButton.setFont(buttonFont);
         settingsLabel.setFont(new Font(Font.SERIF, Font.PLAIN, 35));
@@ -54,10 +53,17 @@ public class StopwatchFrame extends JFrame {
     }
 
     private void setButtonsListeners() {
-        startButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.ButtonType.START)));
-        pauseButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.ButtonType.PAUSE)));
-        stopButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.ButtonType.STOP)));
-        resetButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.ButtonType.RESET)));
+        startButton.addActionListener(e -> {
+            notifyButtonListeners(
+                new ButtonEvent(Stopwatch.getInstance().isRunning()?
+                        ButtonEvent.Type.PAUSE : ButtonEvent.Type.START));
+            if (Stopwatch.getInstance().isRunning())
+                startButton.setText("Pause");
+            else
+                startButton.setText("Start");
+        });
+        stopButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.STOP)));
+        resetButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.RESET)));
     }
 
     private void addTheComponentsToTheFrame() {
