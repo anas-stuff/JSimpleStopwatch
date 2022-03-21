@@ -2,6 +2,9 @@ package com.anas.jsimplestopwatch.gui;
 
 import com.anas.jsimplestopwatch.Stopwatch;
 import com.anas.jsimplestopwatch.Time;
+import com.anas.jsimplestopwatch.settings.Settings;
+import com.anas.jsimplestopwatch.settings.SettingsChangeListener;
+import com.anas.jsimplestopwatch.settings.SettingsManger;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -10,8 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-public class StopwatchFrame extends JFrame {
+public class StopwatchFrame extends JFrame implements SettingsChangeListener {
     private JLabel timeLabel;
+    private JPanel timePanel;
     private JButton startButton, stopButton, resetButton;
     private JLabel settingsLabel;
     private final ArrayList<ButtonsListener> buttonsListeners;
@@ -22,11 +26,13 @@ public class StopwatchFrame extends JFrame {
         setupFrame();
         setupComponents();
         addTheComponentsToTheFrame();
+        SettingsManger.getInstance().addListener(this);
         setVisible(true);
     }
 
     private void initializeComponents() {
         timeLabel = new JLabel("00:00.00");
+        timePanel = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
         resetButton = new JButton("Reset");
@@ -41,17 +47,19 @@ public class StopwatchFrame extends JFrame {
     }
 
     private void setupComponents() {
-        timeLabel.setFont(new Font(Font.SERIF, Font.PLAIN, 65));
+        setupSettings(SettingsManger.getInstance().getSettings());
         timeLabel.setHorizontalAlignment(JLabel.CENTER);
         timeLabel.setVerticalAlignment(JLabel.CENTER);
+        timeLabel.setOpaque(true);
 
-        Font buttonFont = new Font(Font.SERIF, Font.PLAIN, 35);
-        startButton.setFont(buttonFont);
-        stopButton.setFont(buttonFont);
-        resetButton.setFont(buttonFont);
-        settingsLabel.setFont(new Font(Font.SERIF, Font.PLAIN, 35));
+        setupTimePanel();
 
         setButtonsListeners();
+    }
+
+    private void setupTimePanel() {
+        timePanel.setLayout(new BorderLayout());
+        timePanel.add(timeLabel, BorderLayout.CENTER);
     }
 
     private void setButtonsListeners() {
@@ -70,37 +78,29 @@ public class StopwatchFrame extends JFrame {
             notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.STOP));
         });
         resetButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.RESET)));
+        addSettingsLabelListener();
+    }
+
+    private void addSettingsLabelListener() {
         settingsLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.SETTINGS));
             }
-
             @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-
-            }
-
+            public void mousePressed(MouseEvent mouseEvent) { }
             @Override
-            public void mouseReleased(MouseEvent mouseEvent) {
-
-            }
-
+            public void mouseReleased(MouseEvent mouseEvent) { }
             @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-
-            }
-
+            public void mouseEntered(MouseEvent mouseEvent) { }
             @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-
-            }
+            public void mouseExited(MouseEvent mouseEvent) { }
         });
     }
 
     private void addTheComponentsToTheFrame() {
-        super.add(timeLabel, "grow, push, wrap");
-        super.add(startButton, "span, grow");
+        super.add(timePanel, "grow, push, wrap");
+        super.add(startButton, "split 3, grow");
         super.add(stopButton, "grow");
         super.add(resetButton, "grow, wrap");
         super.add(settingsLabel, "wrap");
@@ -118,5 +118,31 @@ public class StopwatchFrame extends JFrame {
         for (ButtonsListener buttonsListener : buttonsListeners) {
             buttonsListener.onPress(buttonEvent);
         }
+    }
+
+    @Override
+    public void onSettingsChanged(Settings settings) {
+        setupSettings(settings);;
+    }
+
+    private void setupSettings(Settings settings) {
+        timeLabel.setFont(settings.getTimerFont());
+        timeLabel.setForeground(settings.getTimerFontColor());
+        timeLabel.setBackground(settings.getTimerBackgroundColor());
+
+        startButton.setFont(settings.getUIFont());
+        startButton.setForeground(settings.getUIFontColor());
+
+        stopButton.setFont(settings.getUIFont());
+        stopButton.setForeground(settings.getUIFontColor());
+
+        resetButton.setFont(settings.getUIFont());
+        resetButton.setForeground(settings.getUIFontColor());
+
+        // Settings label is emoji, so it's not necessary to change its font
+        settingsLabel.setFont(new Font(Font.SERIF, settings.getUIFont().getStyle(), settings.getUIFont().getSize()));
+        settingsLabel.setForeground(settings.getUIFontColor());
+
+        super.getContentPane().setBackground(settings.getUIBackgroundColor());
     }
 }

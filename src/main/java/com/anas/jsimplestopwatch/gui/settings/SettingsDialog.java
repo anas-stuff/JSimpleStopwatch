@@ -1,5 +1,7 @@
 package com.anas.jsimplestopwatch.gui.settings;
 
+import com.anas.jsimplestopwatch.settings.Settings;
+import com.anas.jsimplestopwatch.settings.SettingsManger;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -64,12 +66,12 @@ public class SettingsDialog extends JDialog {
     }
 
     private void onOK() {
-
+        contentPane.save();
+        SettingsManger.getInstance().save();
         exit();
     }
 
     private void onCancel() {
-
         exit();
     }
 

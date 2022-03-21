@@ -3,16 +3,14 @@ package com.anas.jsimplestopwatch.gui.settings;
 import javax.swing.*;
 import java.awt.*;
 
-public class FontEditorPane extends JPanel {
+public class FontEditorPane extends AbstractSettingPanel {
     private JLabel fontNameLabel, fontSizeLabel, fontStyleLabel;
     private JComboBox<String> fontNameComboBox, fontStyleComboBox;
     private JSpinner fontSizeSpinner;
 
     public FontEditorPane(String title) {
-        initComponents();
-        initLayout();
+        super(title);
         setFontsComboBox();
-        super.setBorder(BorderFactory.createTitledBorder(title));
     }
 
     private void setFontsComboBox() {
@@ -21,9 +19,8 @@ public class FontEditorPane extends JPanel {
         fontStyleComboBox.setModel(new DefaultComboBoxModel<>(new String[]{"Plain", "Bold", "Italic"}));
     }
 
-    private void initLayout() {
-        super.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
+    @Override
+    protected void addComponents() {
         super.add(fontNameLabel);
         super.add(fontNameComboBox);
         super.add(fontSizeLabel);
@@ -32,7 +29,8 @@ public class FontEditorPane extends JPanel {
         super.add(fontStyleComboBox);
     }
 
-    private void initComponents() {
+    @Override
+    protected void initComponents() {
         fontNameLabel = new JLabel("Font Name");
         fontSizeLabel = new JLabel("Font Size");
         fontStyleLabel = new JLabel("Font Style");
@@ -50,6 +48,12 @@ public class FontEditorPane extends JPanel {
         return (int) fontSizeSpinner.getValue();
     }
 
+    public void setEditedFont(Font font) {
+        fontNameComboBox.setSelectedItem(font.getName());
+        fontSizeSpinner.setValue(font.getSize());
+        fontStyleComboBox.setSelectedItem(font.getStyle());
+    }
+
     public int getFontStyle() {
         return getFontStyle(fontStyleComboBox.getSelectedIndex());
     }
@@ -64,6 +68,10 @@ public class FontEditorPane extends JPanel {
 
     public void setFontStyle(int fontStyle) {
         fontStyleComboBox.setSelectedIndex(fontStyle);
+    }
+
+    public Font getEditedFont() {
+        return new Font(getFontName(), getFontStyle(), getFontSize());
     }
 
 
