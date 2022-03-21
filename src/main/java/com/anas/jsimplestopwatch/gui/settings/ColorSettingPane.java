@@ -1,8 +1,5 @@
 package com.anas.jsimplestopwatch.gui.settings;
 
-import com.anas.jsimplestopwatch.settings.SettingsManger;
-import de.milchreis.uibooster.UiBooster;
-
 import javax.swing.*;
 import java.awt.*;
 

@@ -8,24 +8,11 @@
     <artifactId>JSimpleStopwatch</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <name>jitpack.io</name>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-swing</artifactId>
             <version>11.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.Milchreis</groupId>
-            <artifactId>UiBooster</artifactId>
-            <version>1.14.2</version>
         </dependency>
     </dependencies>
 
