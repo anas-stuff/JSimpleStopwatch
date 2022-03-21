@@ -5,7 +5,7 @@ public class ButtonEvent {
         START,
         PAUSE,
         STOP,
-        RESET;
+        RESET, SETTINGS;
     }
     private Type type;
 
