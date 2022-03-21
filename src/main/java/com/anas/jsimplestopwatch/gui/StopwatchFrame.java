@@ -35,7 +35,7 @@ public class StopwatchFrame extends JFrame {
         super.setTitle("Stopwatch");
         super.setLayout(new MigLayout());
         super.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        super.setPreferredSize(new Dimension(560, 560));
+        super.setSize(new Dimension(560, 560));
     }
 
     private void setupComponents() {
@@ -62,12 +62,16 @@ public class StopwatchFrame extends JFrame {
             else
                 startButton.setText("Start");
         });
-        stopButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.STOP)));
+        stopButton.addActionListener(e -> {
+            if (Stopwatch.getInstance().isRunning())
+                startButton.setText("Start");
+            notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.STOP));
+        });
         resetButton.addActionListener(e -> notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.RESET)));
     }
 
     private void addTheComponentsToTheFrame() {
-        super.add(timeLabel, "wrap");
+        super.add(timeLabel, "grow, push, wrap");
         super.add(startButton, "span, grow");
         super.add(stopButton, "grow");
         super.add(resetButton, "grow, wrap");
@@ -79,7 +83,14 @@ public class StopwatchFrame extends JFrame {
     }
 
     public void updateTime(Time time) {
-        timeLabel.setText(time.toString());
+        StringBuilder timeString = new StringBuilder();
+
+        timeString.append(time.getHour() == 0? "" : String.format("%02d", time.getHour()) + ":");
+        timeString.append(String.format("%02d", time.getMinute())).append(":");
+        timeString.append(String.format("%02d", time.getSecond())).append(".");
+        timeString.append(String.format("%02d", time.getMillisecond()));
+
+        timeLabel.setText(timeString.toString());
     }
 
     private void notifyButtonListeners(ButtonEvent buttonEvent) {

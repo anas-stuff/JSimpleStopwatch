@@ -10,14 +10,14 @@ import java.util.ArrayList;
 
 public class Stopwatch implements ActionListener {
     private static Stopwatch instance;
-    private ArrayList<StopwatchChangeListener> changeListeners;
+    private final ArrayList<StopwatchChangeListener> changeListeners;
     private final Timer timer;
     private final Time time;
     private boolean running;
 
     private Stopwatch() {
         this.changeListeners = new ArrayList<>();
-        this.timer = new Timer(1000, this); // every second call actionPerformed
+        this.timer = new Timer(10, this); // every 0.01-second call actionPerformed
         this.time = new Time();
         this.running = false;
     }
