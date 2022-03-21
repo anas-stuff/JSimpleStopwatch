@@ -15,4 +15,8 @@ public record StopwatchChangeEvent(Time currentTime) {
     public int getSeconds() {
         return currentTime.getSecond();
     }
+
+    public Time getTime() {
+        return currentTime;
+    }
 }
