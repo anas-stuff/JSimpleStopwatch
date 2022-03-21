@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven 3.8.1
+Built-By: anas
+Build-Jdk: 17.0.3
+Main-Class: com.anas.jsimplestopwatch.Main
