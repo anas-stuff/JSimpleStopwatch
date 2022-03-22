@@ -9,5 +9,5 @@
 <img alt="default screen with changed ui and timer background and font color with settings" src="./Screenshots/5.png">
 <img alt="default screen with changed ui and timer background and font color with settings and timer running" src="./Screenshots/6.png">gi
 
-#### Version: 0.1.1
+#### Version: 1.0.0
 #### License: MIT
