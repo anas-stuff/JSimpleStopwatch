@@ -38,3 +38,6 @@ buildNumber.properties
 
 # Ignore the cache directory
 .cache/
+
+# Build output
+bulid/
