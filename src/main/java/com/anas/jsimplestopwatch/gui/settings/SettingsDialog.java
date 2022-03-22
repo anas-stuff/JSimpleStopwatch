@@ -10,6 +10,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SettingsDialog extends JDialog {
+    private static boolean isOpen;
+
+    static {
+        isOpen = false;
+    }
     private SettingsPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -29,6 +34,11 @@ public class SettingsDialog extends JDialog {
         setResizable(false);
         setLocationRelativeTo(parent);
         setVisible(true);
+        isOpen = true;
+    }
+
+    public static boolean isOpen() {
+        return isOpen;
     }
 
     private void setupContentPane() {
@@ -77,5 +87,6 @@ public class SettingsDialog extends JDialog {
 
     public void exit() {
         dispose();
+        isOpen = false;
     }
 }
