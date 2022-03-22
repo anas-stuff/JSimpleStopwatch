@@ -2,6 +2,7 @@ package com.anas.jsimplestopwatch.gui;
 
 import com.anas.jsimplestopwatch.Stopwatch;
 import com.anas.jsimplestopwatch.Time;
+import com.anas.jsimplestopwatch.gui.settings.SettingsDialog;
 import com.anas.jsimplestopwatch.settings.Settings;
 import com.anas.jsimplestopwatch.settings.SettingsChangeListener;
 import com.anas.jsimplestopwatch.settings.SettingsManger;
@@ -85,7 +86,9 @@ public class StopwatchFrame extends JFrame implements SettingsChangeListener {
         settingsLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.SETTINGS));
+                if (!SettingsDialog.isOpen()) {
+                    notifyButtonListeners(new ButtonEvent(ButtonEvent.Type.SETTINGS));
+                }
             }
             @Override
             public void mousePressed(MouseEvent mouseEvent) { }
@@ -122,7 +125,7 @@ public class StopwatchFrame extends JFrame implements SettingsChangeListener {
 
     @Override
     public void onSettingsChanged(Settings settings) {
-        setupSettings(settings);;
+        setupSettings(settings);
     }
 
     private void setupSettings(Settings settings) {
