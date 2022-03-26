@@ -7,8 +7,6 @@ import com.anas.jsimplestopwatch.gui.settings.SettingsDialog;
 import com.anas.jsimplestopwatch.listeners.StopwatchChangeEvent;
 import com.anas.jsimplestopwatch.listeners.StopwatchChangeListener;
 
-import javax.swing.*;
-
 public class MainController implements StopwatchChangeListener, ButtonsListener {
     private final StopwatchFrame stopwatchFrame;
     public MainController() {
